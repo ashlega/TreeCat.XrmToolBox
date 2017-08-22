@@ -2,7 +2,7 @@
 using System;
 
 namespace FastColoredTextBoxNS
-{
+{ 
     public class CommandManager
     {
         readonly int maxHistoryLength = 200;
