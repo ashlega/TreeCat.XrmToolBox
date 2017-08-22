@@ -1,0 +1,46 @@
+﻿#USING#
+            
+            
+namespace ToolBoxSnippet
+{
+    public class Program
+    {
+  
+        public static IOrganizationService Service = null;
+                    
+        #CODE#
+
+
+        public static Delegate internalLogMessage = null;
+        public static void LogMessage(string msg)
+        {
+            object[] args = new object[] { msg }; 
+            if(internalLogMessage != null) internalLogMessage.DynamicInvoke(args);
+            else Console.WriteLine(msg);
+        }
+
+        public static void RunCode(Delegate logMessage, IOrganizationService service)
+        {
+                internalLogMessage = logMessage;
+                Program.Service = service;
+                try{
+                    CodeNow();   
+                }
+                catch(Exception ex)
+                {
+                    LogMessage("An error has occurred: " + ex.Message);
+                }
+        }
+			
+        
+        public static void Main()
+        {
+            var conn = new Microsoft.Xrm.Tooling.Connector.CrmServiceClient(System.Configuration.ConfigurationManager.ConnectionStrings["CodeNow"].ConnectionString);
+            IOrganizationService service = (IOrganizationService)conn.OrganizationWebProxyClient != null ? (IOrganizationService)conn.OrganizationWebProxyClient : (IOrganizationService)conn.OrganizationServiceProxy;
+            RunCode(null, service);
+        }
+    }
+
+                
+                
+}

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>TreeCat.XrmToolBox.CodeNow</id>
+        <version>1.0.3.0</version>
+        <title>Code Now</title>
+        <authors>Alex Shlega</authors>
+        <owners>Alex Shlega</owners>
+        <projectUrl>http://www.itaintboring.com/tcs-tools/solution-summary/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Use C# code with Dynamics NOW!</description>
+        <summary>Run Code into Dynamics Now
+Build a plugin for Dynamics
+Build a utility for Dynamics</summary>
+        <releaseNotes />
+        <copyright>Alex Shlega</copyright>
+        <tags>XrmToolBox Code Now</tags>
+        <dependencies>
+            <dependency id="XrmToolBoxPackage" version="1.2017.7.18" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="Plugins\TreeCat.XrmToolBox.CodeNow.dll" target="lib\net452\Plugins\TreeCat.XrmToolBox.CodeNow.dll" />
+        <file src="Plugins\TreeCat.XrmToolBox.CodeNow.dll" target="lib\net461\Plugins\TreeCat.XrmToolBox.CodeNow.dll" />
+    </files>
+</package>

@@ -1,0 +1,16 @@
+﻿public static void CodeNow(){
+
+    string fetchXml = @"<fetch version=""1.0"" output-format=""xml-platform"" mapping=""logical"" distinct=""false"" >
+      <entity name = ""account"" >
+        <all-attributes/>
+        <order attribute=""name"" descending=""false"" />
+      </entity>
+    </fetch>";
+
+    var results = Service.RetrieveMultiple(new FetchExpression(fetchXml)).Entities;
+    foreach(var r in results)
+    {
+       LogMessage((string)r["name"]);
+    }
+
+}
