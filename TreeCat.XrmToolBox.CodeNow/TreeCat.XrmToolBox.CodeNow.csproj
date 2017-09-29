@@ -234,6 +234,9 @@
   <ItemGroup>
     <EmbeddedResource Include="SourceFiles\CodeNowSample.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

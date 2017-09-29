@@ -10,7 +10,7 @@ namespace ToolBoxSnippet
                     
         #CODE#
 
-
+		
         public static Delegate internalLogMessage = null;
         public static void LogMessage(string msg)
         {
@@ -36,6 +36,7 @@ namespace ToolBoxSnippet
         public static void Main()
         {
             var conn = new Microsoft.Xrm.Tooling.Connector.CrmServiceClient(System.Configuration.ConfigurationManager.ConnectionStrings["CodeNow"].ConnectionString);
+			//LogMessage("Connection Ready:"+conn.IsReady.ToString());
             IOrganizationService service = (IOrganizationService)conn.OrganizationWebProxyClient != null ? (IOrganizationService)conn.OrganizationWebProxyClient : (IOrganizationService)conn.OrganizationServiceProxy;
             RunCode(null, service);
         }

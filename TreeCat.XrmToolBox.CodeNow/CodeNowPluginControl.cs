@@ -43,9 +43,9 @@ using Microsoft.Xrm.Sdk.Query;";
         private ToolStripDropDownButton toolStripDropDownButton2;
         private ToolStripMenuItem tbLoadItem;
         private ToolStripMenuItem tbSaveItem;
-        private ToolStripMenuItem tbMakeExeItem;
-        private CheckBox cbPlugin;
-        private ToolStripSeparator toolStripMenuItem1;
+        private ToolStripButton toolStripCompile;
+        private ComboBox cbProjectStyle;
+        private Label label1;
         Delegate delegateInstance = null;
 
 
@@ -64,7 +64,7 @@ using Microsoft.Xrm.Sdk.Query;";
 
         public void ShowSampleCode()
         {
-            if (cbPlugin.Checked)
+            if (cbProjectStyle.SelectedIndex == 1)
             {
                 tbCode.Text = Common.PluginSourceSample;
             }
@@ -97,19 +97,19 @@ using Microsoft.Xrm.Sdk.Query;";
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CodeNowPluginControl));
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.cbPlugin = new System.Windows.Forms.CheckBox();
+            this.cbProjectStyle = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
             this.tbLoadItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSaveItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbMakeExeItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripCompile = new System.Windows.Forms.ToolStripButton();
             this.tbRunCode = new System.Windows.Forms.ToolStripButton();
             this.splitContainerCode = new System.Windows.Forms.SplitContainer();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tbUsing = new System.Windows.Forms.TextBox();
             this.tbLog = new System.Windows.Forms.TextBox();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.tbCode = new FastColoredTextBoxNS.FastColoredTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -149,7 +149,8 @@ using Microsoft.Xrm.Sdk.Query;";
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.cbPlugin);
+            this.panel2.Controls.Add(this.cbProjectStyle);
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.toolStrip2);
             this.panel2.Controls.Add(this.splitContainerCode);
             this.panel2.Location = new System.Drawing.Point(3, 3);
@@ -157,30 +158,42 @@ using Microsoft.Xrm.Sdk.Query;";
             this.panel2.Size = new System.Drawing.Size(871, 394);
             this.panel2.TabIndex = 0;
             // 
-            // cbPlugin
+            // cbProjectStyle
             // 
-            this.cbPlugin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbPlugin.AutoSize = true;
-            this.cbPlugin.Location = new System.Drawing.Point(147, 369);
-            this.cbPlugin.Name = "cbPlugin";
-            this.cbPlugin.Size = new System.Drawing.Size(55, 17);
-            this.cbPlugin.TabIndex = 2;
-            this.cbPlugin.Text = "Plugin";
-            this.cbPlugin.UseVisualStyleBackColor = true;
-            this.cbPlugin.Click += new System.EventHandler(this.cbPlugin_Click);
+            this.cbProjectStyle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbProjectStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbProjectStyle.FormattingEnabled = true;
+            this.cbProjectStyle.Items.AddRange(new object[] {
+            "Code Now",
+            "Plugin"});
+            this.cbProjectStyle.Location = new System.Drawing.Point(233, 367);
+            this.cbProjectStyle.Name = "cbProjectStyle";
+            this.cbProjectStyle.Size = new System.Drawing.Size(121, 21);
+            this.cbProjectStyle.TabIndex = 4;
+            this.cbProjectStyle.SelectedIndexChanged += new System.EventHandler(this.cbProjectStyle_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(161, 370);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Project Style";
             // 
             // toolStrip2
             // 
-            this.toolStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.toolStrip2.AutoSize = false;
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton2,
+            this.toolStripCompile,
             this.tbRunCode});
             this.toolStrip2.Location = new System.Drawing.Point(0, 363);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(134, 27);
+            this.toolStrip2.Size = new System.Drawing.Size(157, 27);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -189,9 +202,7 @@ using Microsoft.Xrm.Sdk.Query;";
             this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbLoadItem,
-            this.tbSaveItem,
-            this.toolStripMenuItem1,
-            this.tbMakeExeItem});
+            this.tbSaveItem});
             this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
@@ -201,23 +212,26 @@ using Microsoft.Xrm.Sdk.Query;";
             // tbLoadItem
             // 
             this.tbLoadItem.Name = "tbLoadItem";
-            this.tbLoadItem.Size = new System.Drawing.Size(152, 22);
+            this.tbLoadItem.Size = new System.Drawing.Size(100, 22);
             this.tbLoadItem.Text = "Load";
             this.tbLoadItem.Click += new System.EventHandler(this.tbLoadItem_Click);
             // 
             // tbSaveItem
             // 
             this.tbSaveItem.Name = "tbSaveItem";
-            this.tbSaveItem.Size = new System.Drawing.Size(152, 22);
+            this.tbSaveItem.Size = new System.Drawing.Size(100, 22);
             this.tbSaveItem.Text = "Save";
             this.tbSaveItem.Click += new System.EventHandler(this.tbSaveItem_Click);
             // 
-            // tbMakeExeItem
+            // toolStripCompile
             // 
-            this.tbMakeExeItem.Name = "tbMakeExeItem";
-            this.tbMakeExeItem.Size = new System.Drawing.Size(152, 22);
-            this.tbMakeExeItem.Text = "Compile";
-            this.tbMakeExeItem.Click += new System.EventHandler(this.tbMakeExeItem_Click);
+            this.toolStripCompile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripCompile.Image = ((System.Drawing.Image)(resources.GetObject("toolStripCompile.Image")));
+            this.toolStripCompile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripCompile.Name = "toolStripCompile";
+            this.toolStripCompile.Size = new System.Drawing.Size(56, 24);
+            this.toolStripCompile.Text = "Compile";
+            this.toolStripCompile.Click += new System.EventHandler(this.tbMakeExeItem_Click);
             // 
             // tbRunCode
             // 
@@ -225,8 +239,8 @@ using Microsoft.Xrm.Sdk.Query;";
             this.tbRunCode.Image = ((System.Drawing.Image)(resources.GetObject("tbRunCode.Image")));
             this.tbRunCode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbRunCode.Name = "tbRunCode";
-            this.tbRunCode.Size = new System.Drawing.Size(63, 24);
-            this.tbRunCode.Text = "Run Code";
+            this.tbRunCode.Size = new System.Drawing.Size(32, 24);
+            this.tbRunCode.Text = "Run";
             this.tbRunCode.Click += new System.EventHandler(this.buttonRun_Click);
             // 
             // splitContainerCode
@@ -298,11 +312,6 @@ using Microsoft.Xrm.Sdk.Query;";
             this.tbLog.Size = new System.Drawing.Size(871, 151);
             this.tbLog.TabIndex = 1;
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
-            // 
             // tbCode
             // 
             this.tbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -328,7 +337,6 @@ using Microsoft.Xrm.Sdk.Query;";
             this.tbCode.CharWidth = 8;
             this.tbCode.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.tbCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.tbCode.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.tbCode.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.AllTextRange;
             this.tbCode.IsReplaceMode = false;
             this.tbCode.Language = FastColoredTextBoxNS.Language.CSharp;
@@ -400,7 +408,7 @@ using Microsoft.Xrm.Sdk.Query;";
         private void tbMakeExeItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            if (cbPlugin.Checked)
+            if (cbProjectStyle.SelectedIndex == 1)
             {
                 sfd.Filter = "*.dll|*.dll";
                 sfd.Title = "Compile a dll";
@@ -413,10 +421,10 @@ using Microsoft.Xrm.Sdk.Query;";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 var cmn = new Common();
-                string result = cmn.GenerateCode(Service, delegateInstance, cbPlugin.Checked ? COMPILE_ACTION.COMPILE_DLL : COMPILE_ACTION.MAKE_EXE, sfd.FileName, tbCode.Text, tbUsing.Text);
+                string result = cmn.GenerateCode(Service, delegateInstance, cbProjectStyle.SelectedIndex == 1 ? COMPILE_ACTION.COMPILE_DLL : COMPILE_ACTION.MAKE_EXE, sfd.FileName, tbCode.Text, tbUsing.Text);
                 LogMessage(result);
 
-                if (cbPlugin.Checked == false)
+                if (cbProjectStyle.SelectedIndex == 0)
                 {
 
                     string compiledFileName = System.IO.Path.GetFileName(sfd.FileName);
@@ -478,7 +486,7 @@ using Microsoft.Xrm.Sdk.Query;";
 
         public void HideShowControls()
         {
-            if (cbPlugin.Checked)
+            if (cbProjectStyle.SelectedIndex == 1)
             {
                 splitContainerCode.Panel2Collapsed = true;
                 splitContainerCode.Panel2.Hide();
@@ -492,16 +500,12 @@ using Microsoft.Xrm.Sdk.Query;";
 
         private void cbPlugin_Click(object sender, EventArgs e)
         {
-            HideShowControls();
-            ShowSampleCode();
-
-
-        }
-
-        private void CodeNowPluginControl_Load(object sender, EventArgs e)
-        {
             
+
+
         }
+
+       
 
         public string HelpUrl
         {
@@ -509,6 +513,17 @@ using Microsoft.Xrm.Sdk.Query;";
             {
                 return "http://www.itaintboring.com/tcs-tools/code-now-plugin-for-xrmtoolbox/#suggestions";
             }
+        }
+
+        private void cbProjectStyle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            HideShowControls();
+            ShowSampleCode();
+        }
+
+        private void CodeNowPluginControl_Load(object sender, EventArgs e)
+        {
+            cbProjectStyle.SelectedIndex = 0;
         }
     }
 }
