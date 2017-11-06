@@ -15,7 +15,11 @@ public delegate void LogMessageDelegate(string msg);
 
 namespace TreeCat.XrmToolBox.CodeNow
 {
-    
+    public enum SAMPLE_CODE_ID
+    {
+        NONE = 0,
+        SOLUTION_STATS = 1
+    }
 
     public partial class CodeNowPluginControl: PluginControlBase, IHelpPlugin
     {
@@ -26,7 +30,12 @@ namespace TreeCat.XrmToolBox.CodeNow
         
         public static string BaseUsing = @"using System;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;";
+using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Sdk.Messages;
+using Microsoft.Xrm.Sdk.Metadata;
+using System.Xml;
+using System.Text;
+using System.IO;";
 
         private System.ComponentModel.IContainer components;
         private FastColoredTextBoxNS.FastColoredTextBox tbCode;
@@ -46,6 +55,8 @@ using Microsoft.Xrm.Sdk.Query;";
         private ToolStripButton toolStripCompile;
         private ComboBox cbProjectStyle;
         private Label label1;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem tbSolutionStats;
         Delegate delegateInstance = null;
 
 
@@ -62,16 +73,32 @@ using Microsoft.Xrm.Sdk.Query;";
 
         }
 
-        public void ShowSampleCode()
+        public void ShowSampleCode(SAMPLE_CODE_ID samplecode = SAMPLE_CODE_ID.NONE)
         {
-            if (cbProjectStyle.SelectedIndex == 1)
+            if (samplecode == SAMPLE_CODE_ID.NONE)
             {
-                tbCode.Text = Common.PluginSourceSample;
+                if (cbProjectStyle.SelectedIndex == 1)
+                {
+                    tbCode.Text = Common.PluginSourceSample;
+                }
+                else
+                {
+                    tbCode.Text = Common.CodeNowSample;
+                    tbUsing.Text = BaseUsing;
+                }
             }
             else
             {
-                tbCode.Text = Common.CodeNowSample;
-                tbUsing.Text = BaseUsing;
+                cbProjectStyle.SelectedIndex = 0;
+                switch(samplecode)
+                {
+                    case SAMPLE_CODE_ID.SOLUTION_STATS:
+                        tbCode.Text = Common.SolutionStatsCode;
+                        tbUsing.Text = BaseUsing;
+                        break;
+                    default: break;
+                }
+            
             }
         }
 
@@ -103,14 +130,16 @@ using Microsoft.Xrm.Sdk.Query;";
             this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
             this.tbLoadItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSaveItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbSolutionStats = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripCompile = new System.Windows.Forms.ToolStripButton();
             this.tbRunCode = new System.Windows.Forms.ToolStripButton();
             this.splitContainerCode = new System.Windows.Forms.SplitContainer();
+            this.tbCode = new FastColoredTextBoxNS.FastColoredTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tbUsing = new System.Windows.Forms.TextBox();
             this.tbLog = new System.Windows.Forms.TextBox();
-            this.tbCode = new FastColoredTextBoxNS.FastColoredTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
@@ -202,7 +231,9 @@ using Microsoft.Xrm.Sdk.Query;";
             this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbLoadItem,
-            this.tbSaveItem});
+            this.tbSaveItem,
+            this.toolStripSeparator1,
+            this.tbSolutionStats});
             this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
@@ -212,16 +243,28 @@ using Microsoft.Xrm.Sdk.Query;";
             // tbLoadItem
             // 
             this.tbLoadItem.Name = "tbLoadItem";
-            this.tbLoadItem.Size = new System.Drawing.Size(100, 22);
-            this.tbLoadItem.Text = "Load";
+            this.tbLoadItem.Size = new System.Drawing.Size(152, 22);
+            this.tbLoadItem.Text = "Open";
             this.tbLoadItem.Click += new System.EventHandler(this.tbLoadItem_Click);
             // 
             // tbSaveItem
             // 
             this.tbSaveItem.Name = "tbSaveItem";
-            this.tbSaveItem.Size = new System.Drawing.Size(100, 22);
+            this.tbSaveItem.Size = new System.Drawing.Size(152, 22);
             this.tbSaveItem.Text = "Save";
             this.tbSaveItem.Click += new System.EventHandler(this.tbSaveItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // tbSolutionStats
+            // 
+            this.tbSolutionStats.Name = "tbSolutionStats";
+            this.tbSolutionStats.Size = new System.Drawing.Size(152, 22);
+            this.tbSolutionStats.Text = "Solution Stats";
+            this.tbSolutionStats.Click += new System.EventHandler(this.tbSolutionStats_Click);
             // 
             // toolStripCompile
             // 
@@ -265,6 +308,47 @@ using Microsoft.Xrm.Sdk.Query;";
             this.splitContainerCode.Size = new System.Drawing.Size(871, 363);
             this.splitContainerCode.SplitterDistance = 550;
             this.splitContainerCode.TabIndex = 0;
+            // 
+            // tbCode
+            // 
+            this.tbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbCode.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.tbCode.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n^\\s*(case|default)\\s*[^:]" +
+    "*(?<range>:)\\s*(?<range>[^;]+);\r\n";
+            this.tbCode.AutoScrollMinSize = new System.Drawing.Size(179, 14);
+            this.tbCode.BackBrush = null;
+            this.tbCode.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
+            this.tbCode.CharHeight = 14;
+            this.tbCode.CharWidth = 8;
+            this.tbCode.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.tbCode.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.AllTextRange;
+            this.tbCode.IsReplaceMode = false;
+            this.tbCode.Language = FastColoredTextBoxNS.Language.CSharp;
+            this.tbCode.LeftBracket = '(';
+            this.tbCode.LeftBracket2 = '{';
+            this.tbCode.Location = new System.Drawing.Point(7, 25);
+            this.tbCode.Name = "tbCode";
+            this.tbCode.Paddings = new System.Windows.Forms.Padding(0);
+            this.tbCode.RightBracket = ')';
+            this.tbCode.RightBracket2 = '}';
+            this.tbCode.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.tbCode.Size = new System.Drawing.Size(540, 335);
+            this.tbCode.TabIndex = 1;
+            this.tbCode.Text = "fastColoredTextBox1";
+            this.tbCode.Zoom = 100;
             // 
             // label5
             // 
@@ -311,47 +395,6 @@ using Microsoft.Xrm.Sdk.Query;";
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbLog.Size = new System.Drawing.Size(871, 151);
             this.tbLog.TabIndex = 1;
-            // 
-            // tbCode
-            // 
-            this.tbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbCode.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.tbCode.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n^\\s*(case|default)\\s*[^:]" +
-    "*(?<range>:)\\s*(?<range>[^;]+);\r\n";
-            this.tbCode.AutoScrollMinSize = new System.Drawing.Size(179, 14);
-            this.tbCode.BackBrush = null;
-            this.tbCode.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-            this.tbCode.CharHeight = 14;
-            this.tbCode.CharWidth = 8;
-            this.tbCode.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.tbCode.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.AllTextRange;
-            this.tbCode.IsReplaceMode = false;
-            this.tbCode.Language = FastColoredTextBoxNS.Language.CSharp;
-            this.tbCode.LeftBracket = '(';
-            this.tbCode.LeftBracket2 = '{';
-            this.tbCode.Location = new System.Drawing.Point(7, 25);
-            this.tbCode.Name = "tbCode";
-            this.tbCode.Paddings = new System.Windows.Forms.Padding(0);
-            this.tbCode.RightBracket = ')';
-            this.tbCode.RightBracket2 = '}';
-            this.tbCode.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.tbCode.Size = new System.Drawing.Size(540, 335);
-            this.tbCode.TabIndex = 1;
-            this.tbCode.Text = "fastColoredTextBox1";
-            this.tbCode.Zoom = 100;
             // 
             // CodeNowPluginControl
             // 
@@ -524,6 +567,11 @@ using Microsoft.Xrm.Sdk.Query;";
         private void CodeNowPluginControl_Load(object sender, EventArgs e)
         {
             cbProjectStyle.SelectedIndex = 0;
+        }
+
+        private void tbSolutionStats_Click(object sender, EventArgs e)
+        {
+            ShowSampleCode(SAMPLE_CODE_ID.SOLUTION_STATS);
         }
     }
 }

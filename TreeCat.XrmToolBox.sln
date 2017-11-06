@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeCat.XrmToolBox.CodeNow", "TreeCat.XrmToolBox.CodeNow\TreeCat.XrmToolBox.CodeNow.csproj", "{78C9E53B-4917-4A23-A7C1-1DD643103242}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{F842FA56-CA45-46C4-A325-32824666026C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{78C9E53B-4917-4A23-A7C1-1DD643103242}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78C9E53B-4917-4A23-A7C1-1DD643103242}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78C9E53B-4917-4A23-A7C1-1DD643103242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F842FA56-CA45-46C4-A325-32824666026C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F842FA56-CA45-46C4-A325-32824666026C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F842FA56-CA45-46C4-A325-32824666026C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F842FA56-CA45-46C4-A325-32824666026C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

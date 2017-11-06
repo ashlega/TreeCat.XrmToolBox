@@ -77,6 +77,7 @@ namespace TreeCat.XrmToolBox.CodeNow
             parameters.ReferencedAssemblies.Add("System.Configuration.dll");
             parameters.ReferencedAssemblies.Add("Microsoft.Xrm.Sdk.dll");
             parameters.ReferencedAssemblies.Add("Microsoft.Xrm.Tooling.Connector.dll");
+            
 
             // True - memory generation, false - external file generation
             parameters.GenerateInMemory = action == COMPILE_ACTION.RUN_NOW;
@@ -88,7 +89,7 @@ namespace TreeCat.XrmToolBox.CodeNow
             string exeSource = code;
             if (action != COMPILE_ACTION.COMPILE_DLL)
             {
-                exeSource = BaseCode.Replace("#CODE#", code).Replace("#USING#", usingList);
+                exeSource = BaseCode.Replace("#CODE#", code ).Replace("#USING#", usingList + HelperCode);
             }
             else {
                 //need a key file
@@ -99,6 +100,7 @@ namespace TreeCat.XrmToolBox.CodeNow
             System.CodeDom.Compiler.CompilerResults results = null;
             try
             {
+                
                 results = provider.CompileAssemblyFromSource(parameters, exeSource);
             }
             catch (Exception)
@@ -165,6 +167,33 @@ namespace TreeCat.XrmToolBox.CodeNow
             {
                 if (codeNowSample == null) codeNowSample = GetTextResource("TreeCat.XrmToolBox.CodeNow.SourceFiles.CodeNowSample.txt");
                 return codeNowSample;
+            }
+        }
+
+        private static string solutionStatsCode = null;
+        public static string SolutionStatsCode
+        {
+            get
+            {
+                if (solutionStatsCode == null) solutionStatsCode = GetTextResource("TreeCat.XrmToolBox.CodeNow.SourceFiles.SolutionStats.txt");
+                return solutionStatsCode;
+            }
+        }
+
+        private static string helperCode = null;
+        public static string HelperCode
+        {
+            get
+            {
+                if (helperCode == null)
+                {
+                    helperCode = GetTextResource("TreeCat.XrmToolBox.CodeNow.SourceFiles.DynamicsHelper.cs");
+                    int i = helperCode.IndexOf("{");
+                    helperCode = helperCode.Substring(i + 1);
+                    i = helperCode.LastIndexOf("}");
+                    helperCode = helperCode.Substring(0, i);
+                }
+                return helperCode;
             }
         }
 

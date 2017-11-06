@@ -192,6 +192,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Common.cs" />
+    <EmbeddedResource Include="SourceFiles\DynamicsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebResourceUploadControl.cs">
       <SubType>UserControl</SubType>
@@ -205,6 +206,7 @@
     <None Include="app.config" />
     <EmbeddedResource Include="SourceFiles\codenow.snk" />
     <None Include="packages.config" />
+    <None Include="Solutions\Overview_1_0_0_0.zip" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeEditor\FastColoredTextBox.resx" />
@@ -236,6 +238,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SourceFiles\SolutionStats.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
