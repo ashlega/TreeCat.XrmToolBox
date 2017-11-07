@@ -55,7 +55,38 @@ namespace TreeCat.XrmToolBox.CodeNow
 
         }
 
-        public string GenerateCode(IOrganizationService service, Delegate delegateInstance, COMPILE_ACTION action, string exeFileName, string code, string usingList)
+
+        public void StartRunCodeThread(Object obj)
+        {
+            Object[] threadParams = (Object[])obj;
+            System.CodeDom.Compiler.CompilerResults results = (System.CodeDom.Compiler.CompilerResults)threadParams[0];
+            Delegate delegateInstance = (Delegate)threadParams[1];
+            IOrganizationService service = (IOrganizationService)threadParams[2];
+            ProgressIndicatorDelegate startProgress = (ProgressIndicatorDelegate)threadParams[3];
+            ProgressIndicatorDelegate stopProgress = (ProgressIndicatorDelegate)threadParams[4];
+
+            startProgress();
+            try
+            {
+                var assembly = results.CompiledAssembly;
+                Type program = assembly.GetType("ToolBoxSnippet.Program");
+                var main = program.GetMethod("RunCode");
+                object[] callParameters = new object[1];
+
+                object[] args = new object[] { delegateInstance, service };
+                main.Invoke(null, args);
+            }
+            catch(Exception ex)
+            {
+                if(delegateInstance is LogMessageDelegate) ((LogMessageDelegate)delegateInstance)("An error has occurred: " + ex.Message);
+            }
+            finally
+            {
+                stopProgress();
+            }
+        }
+
+        public string GenerateCode(IOrganizationService service, Delegate delegateInstance, COMPILE_ACTION action, string exeFileName, string code, string usingList, ProgressIndicatorDelegate startProgress, ProgressIndicatorDelegate stopProgress)
         {
             string result = null;
             var provider = new Microsoft.CSharp.CSharpCodeProvider();
@@ -125,13 +156,16 @@ namespace TreeCat.XrmToolBox.CodeNow
             }
             else if (action == COMPILE_ACTION.RUN_NOW)
             {
-                var assembly = results.CompiledAssembly;
-                Type program = assembly.GetType("ToolBoxSnippet.Program");
-                var main = program.GetMethod("RunCode");
-                object[] callParameters = new object[1];
-
-                object[] args = new object[] { delegateInstance, service };
-                main.Invoke(null, args);
+                var th = new System.Threading.Thread(StartRunCodeThread);
+                Object[] threadParams = new Object[5];
+                threadParams[0] = results;
+                threadParams[1] = delegateInstance;
+                threadParams[2] = service;
+                threadParams[3] = startProgress;
+                threadParams[4] = stopProgress;
+                th.Start(threadParams);
+                
+                
             }
             else
             {

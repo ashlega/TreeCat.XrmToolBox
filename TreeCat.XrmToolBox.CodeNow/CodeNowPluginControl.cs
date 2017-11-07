@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 public delegate void LogMessageDelegate(string msg);
+public delegate void ProgressIndicatorDelegate();
 
 namespace TreeCat.XrmToolBox.CodeNow
 {
@@ -57,6 +58,8 @@ using System.IO;";
         private Label label1;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem tbSolutionStats;
+        private Timer progressTimer;
+        private ProgressBar executionProgressBar;
         Delegate delegateInstance = null;
 
 
@@ -135,11 +138,13 @@ using System.IO;";
             this.toolStripCompile = new System.Windows.Forms.ToolStripButton();
             this.tbRunCode = new System.Windows.Forms.ToolStripButton();
             this.splitContainerCode = new System.Windows.Forms.SplitContainer();
-            this.tbCode = new FastColoredTextBoxNS.FastColoredTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tbUsing = new System.Windows.Forms.TextBox();
             this.tbLog = new System.Windows.Forms.TextBox();
+            this.progressTimer = new System.Windows.Forms.Timer(this.components);
+            this.executionProgressBar = new System.Windows.Forms.ProgressBar();
+            this.tbCode = new FastColoredTextBoxNS.FastColoredTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
@@ -178,6 +183,7 @@ using System.IO;";
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.executionProgressBar);
             this.panel2.Controls.Add(this.cbProjectStyle);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.toolStrip2);
@@ -243,26 +249,26 @@ using System.IO;";
             // tbLoadItem
             // 
             this.tbLoadItem.Name = "tbLoadItem";
-            this.tbLoadItem.Size = new System.Drawing.Size(152, 22);
+            this.tbLoadItem.Size = new System.Drawing.Size(146, 22);
             this.tbLoadItem.Text = "Open";
             this.tbLoadItem.Click += new System.EventHandler(this.tbLoadItem_Click);
             // 
             // tbSaveItem
             // 
             this.tbSaveItem.Name = "tbSaveItem";
-            this.tbSaveItem.Size = new System.Drawing.Size(152, 22);
+            this.tbSaveItem.Size = new System.Drawing.Size(146, 22);
             this.tbSaveItem.Text = "Save";
             this.tbSaveItem.Click += new System.EventHandler(this.tbSaveItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // tbSolutionStats
             // 
             this.tbSolutionStats.Name = "tbSolutionStats";
-            this.tbSolutionStats.Size = new System.Drawing.Size(152, 22);
+            this.tbSolutionStats.Size = new System.Drawing.Size(146, 22);
             this.tbSolutionStats.Text = "Solution Stats";
             this.tbSolutionStats.Click += new System.EventHandler(this.tbSolutionStats_Click);
             // 
@@ -308,47 +314,6 @@ using System.IO;";
             this.splitContainerCode.Size = new System.Drawing.Size(871, 363);
             this.splitContainerCode.SplitterDistance = 550;
             this.splitContainerCode.TabIndex = 0;
-            // 
-            // tbCode
-            // 
-            this.tbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbCode.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.tbCode.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n^\\s*(case|default)\\s*[^:]" +
-    "*(?<range>:)\\s*(?<range>[^;]+);\r\n";
-            this.tbCode.AutoScrollMinSize = new System.Drawing.Size(179, 14);
-            this.tbCode.BackBrush = null;
-            this.tbCode.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-            this.tbCode.CharHeight = 14;
-            this.tbCode.CharWidth = 8;
-            this.tbCode.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.tbCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.tbCode.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.AllTextRange;
-            this.tbCode.IsReplaceMode = false;
-            this.tbCode.Language = FastColoredTextBoxNS.Language.CSharp;
-            this.tbCode.LeftBracket = '(';
-            this.tbCode.LeftBracket2 = '{';
-            this.tbCode.Location = new System.Drawing.Point(7, 25);
-            this.tbCode.Name = "tbCode";
-            this.tbCode.Paddings = new System.Windows.Forms.Padding(0);
-            this.tbCode.RightBracket = ')';
-            this.tbCode.RightBracket2 = '}';
-            this.tbCode.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.tbCode.Size = new System.Drawing.Size(540, 335);
-            this.tbCode.TabIndex = 1;
-            this.tbCode.Text = "fastColoredTextBox1";
-            this.tbCode.Zoom = 100;
             // 
             // label5
             // 
@@ -396,6 +361,61 @@ using System.IO;";
             this.tbLog.Size = new System.Drawing.Size(871, 151);
             this.tbLog.TabIndex = 1;
             // 
+            // progressTimer
+            // 
+            this.progressTimer.Interval = 500;
+            this.progressTimer.Tick += new System.EventHandler(this.progressTimer_Tick);
+            // 
+            // executionProgressBar
+            // 
+            this.executionProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.executionProgressBar.Location = new System.Drawing.Point(370, 370);
+            this.executionProgressBar.Name = "executionProgressBar";
+            this.executionProgressBar.Size = new System.Drawing.Size(498, 18);
+            this.executionProgressBar.TabIndex = 5;
+            // 
+            // tbCode
+            // 
+            this.tbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbCode.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.tbCode.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n^\\s*(case|default)\\s*[^:]" +
+    "*(?<range>:)\\s*(?<range>[^;]+);\r\n";
+            this.tbCode.AutoScrollMinSize = new System.Drawing.Size(179, 14);
+            this.tbCode.BackBrush = null;
+            this.tbCode.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
+            this.tbCode.CharHeight = 14;
+            this.tbCode.CharWidth = 8;
+            this.tbCode.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.tbCode.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.AllTextRange;
+            this.tbCode.IsReplaceMode = false;
+            this.tbCode.Language = FastColoredTextBoxNS.Language.CSharp;
+            this.tbCode.LeftBracket = '(';
+            this.tbCode.LeftBracket2 = '{';
+            this.tbCode.Location = new System.Drawing.Point(7, 25);
+            this.tbCode.Name = "tbCode";
+            this.tbCode.Paddings = new System.Windows.Forms.Padding(0);
+            this.tbCode.RightBracket = ')';
+            this.tbCode.RightBracket2 = '}';
+            this.tbCode.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.tbCode.Size = new System.Drawing.Size(540, 335);
+            this.tbCode.TabIndex = 1;
+            this.tbCode.Text = "fastColoredTextBox1";
+            this.tbCode.Zoom = 100;
+            // 
             // CodeNowPluginControl
             // 
             this.Controls.Add(this.splitContainer4);
@@ -425,17 +445,50 @@ using System.IO;";
 
         private void LogMessage(string msg)
         {
-            tbLog.Text += msg + System.Environment.NewLine;
+            tbLog.AppendText(msg + System.Environment.NewLine);
+            
         }
 
 
-        
+        private void StartProgress()
+        {
+            if (this.executionProgressBar.InvokeRequired)
+            {
+                ProgressIndicatorDelegate d = new ProgressIndicatorDelegate(StartProgress);
+                this.Invoke(d);
+            }
+            else
+            {
+                executionProgressBar.Value = 1;
+                tbCode.Enabled = false;
+                progressTimer.Start();
+            }
+        }
+
+        private void StopProgress()
+        {
+            if (this.executionProgressBar.InvokeRequired)
+            {
+                ProgressIndicatorDelegate d = new ProgressIndicatorDelegate(StopProgress);
+                this.Invoke(d);
+            }
+            else
+            {
+                executionProgressBar.Value = 0;
+                progressTimer.Stop();
+                tbCode.Enabled = true;
+            }
+            
+        }
+
 
         private void buttonRun_Click(object sender, EventArgs e)
         {
+            
+
             var cmn = new Common();
-            string result = cmn.GenerateCode(Service, delegateInstance, COMPILE_ACTION.RUN_NOW, null, tbCode.Text, tbUsing.Text);
-            if (result == null) LogMessage(result);
+            string result = cmn.GenerateCode(Service, delegateInstance, COMPILE_ACTION.RUN_NOW, null, tbCode.Text, tbUsing.Text, StartProgress, StopProgress);
+            if (result != null) LogMessage(result);
         }
 
        
@@ -464,7 +517,7 @@ using System.IO;";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 var cmn = new Common();
-                string result = cmn.GenerateCode(Service, delegateInstance, cbProjectStyle.SelectedIndex == 1 ? COMPILE_ACTION.COMPILE_DLL : COMPILE_ACTION.MAKE_EXE, sfd.FileName, tbCode.Text, tbUsing.Text);
+                string result = cmn.GenerateCode(Service, delegateInstance, cbProjectStyle.SelectedIndex == 1 ? COMPILE_ACTION.COMPILE_DLL : COMPILE_ACTION.MAKE_EXE, sfd.FileName, tbCode.Text, tbUsing.Text, StartProgress, StopProgress);
                 LogMessage(result);
 
                 if (cbProjectStyle.SelectedIndex == 0)
@@ -572,6 +625,12 @@ using System.IO;";
         private void tbSolutionStats_Click(object sender, EventArgs e)
         {
             ShowSampleCode(SAMPLE_CODE_ID.SOLUTION_STATS);
+        }
+
+        private void progressTimer_Tick(object sender, EventArgs e)
+        {
+            executionProgressBar.Value += 5;
+            if (executionProgressBar.Value >= executionProgressBar.Maximum) executionProgressBar.Value = 0;
         }
     }
 }

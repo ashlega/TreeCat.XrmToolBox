@@ -206,7 +206,8 @@
     <None Include="app.config" />
     <EmbeddedResource Include="SourceFiles\codenow.snk" />
     <None Include="packages.config" />
-    <None Include="Solutions\Overview_1_0_0_0.zip" />
+    <None Include="Releases\1.0.0.14\Overview_1_0_0_0.zip" />
+    <None Include="Releases\1.0.0.14\TreeCat.XrmToolBox.CodeNow.zip" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeEditor\FastColoredTextBox.resx" />
