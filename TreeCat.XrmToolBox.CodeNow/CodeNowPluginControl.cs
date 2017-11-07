@@ -629,8 +629,9 @@ using System.IO;";
 
         private void progressTimer_Tick(object sender, EventArgs e)
         {
-            executionProgressBar.Value += 5;
-            if (executionProgressBar.Value >= executionProgressBar.Maximum) executionProgressBar.Value = 0;
+
+            if (executionProgressBar.Value + 5 >= executionProgressBar.Maximum) executionProgressBar.Value = 0;
+            else executionProgressBar.Value += 5;
         }
     }
 }

@@ -208,6 +208,7 @@
     <None Include="packages.config" />
     <None Include="Releases\1.0.0.14\Overview_1_0_0_0.zip" />
     <None Include="Releases\1.0.0.14\TreeCat.XrmToolBox.CodeNow.zip" />
+    <None Include="Releases\1.0.0.15\Overview_1_0_0_0.zip" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeEditor\FastColoredTextBox.resx" />
