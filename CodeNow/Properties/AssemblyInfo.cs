@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TreeCat.XrmToolBox.CodeNow")]
+[assembly: AssemblyTitle("CodeNow")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Alex Shlega")]
-[assembly: AssemblyProduct("TreeCat.XrmToolBox.CodeNow")]
-[assembly: AssemblyCopyright("Copyright Alex Shlega ©  2017")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("CodeNow")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("78c9e53b-4917-4a23-a7c1-1dd643103242")]
+[assembly: Guid("b822b03d-07ee-4ba4-90ab-b0f5f589f9dd")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.17.0")]
-[assembly: AssemblyFileVersion("1.0.17.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

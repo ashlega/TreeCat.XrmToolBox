@@ -250,5 +250,15 @@ namespace TreeCat.XrmToolBox.CodeNow
                 return codenowKey;
             }
         }
+
+        public static string BaseUsing = @"using System;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Sdk.Messages;
+using Microsoft.Xrm.Sdk.Metadata;
+using System.Xml;
+using System.Text;
+using System.IO;";
+
     }
 }

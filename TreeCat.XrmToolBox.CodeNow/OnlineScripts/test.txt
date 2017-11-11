@@ -1,15 +1,16 @@
-﻿/*CATEGORY
+/*Category
 Code Now
-CATEGORY*/
-/*TITLE
-Account Names
-TITLE*/
-/*TYPE
+Category*/
+/*Description
+
+Description*/
+/*Title
+New Script
+Title*/
+/*Type
 Code
-TYPE*/
-/*DESCRIPTION
-DESCRIPTION*/
-/*USING
+Type*/
+/*Using
 using System;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
@@ -18,8 +19,8 @@ using Microsoft.Xrm.Sdk.Metadata;
 using System.Xml;
 using System.Text;
 using System.IO;
-USING*/
-/*CODE
+Using*/
+/*Code
 public static void CodeNow(){
 
     string fetchXml = @"<fetch version=""1.0"" output-format=""xml-platform"" mapping=""logical"" distinct=""false"" >
@@ -36,5 +37,4 @@ public static void CodeNow(){
     }
 
 }
-
-CODE*/
+Code*/

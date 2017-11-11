@@ -101,6 +101,7 @@
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
@@ -191,9 +192,35 @@
     <Compile Include="CodeNowPluginControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="CodeNowScript.cs" />
     <Compile Include="Common.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="SourceFiles\DynamicsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StorageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StorageForm.Designer.cs">
+      <DependentUpon>StorageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StorageSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StorageSelector.Designer.cs">
+      <DependentUpon>StorageSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Storage\Online.cs" />
+    <Compile Include="Storage\FileSystem.cs" />
+    <Compile Include="Storage\ICodeNowStorage.cs" />
+    <Compile Include="Storage\Embedded.cs" />
     <Compile Include="WebResourceUploadControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -220,6 +247,12 @@
       <DependentUpon>CodeNowPluginControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="StorageForm.resx">
+      <DependentUpon>StorageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StorageSelector.resx">
+      <DependentUpon>StorageSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WebResourceUploadControl.resx">
       <DependentUpon>WebResourceUploadControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -239,10 +272,19 @@
     <EmbeddedResource Include="SourceFiles\CodeNowSample.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Images\" />
+    <Content Include="OnlineScripts\EntityMetadata.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SourceFiles\SolutionStats.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OnlineScripts\SolutionStats.txt" />
+    <None Include="OnlineScripts\PluginSourceSample.txt" />
+    <None Include="OnlineScripts\CodeNowSample.txt" />
+    <None Include="OnlineScripts\1_CodeNowScripts.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Logo64.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

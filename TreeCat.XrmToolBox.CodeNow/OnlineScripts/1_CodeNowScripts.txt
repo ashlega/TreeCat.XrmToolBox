@@ -1,0 +1,4 @@
+﻿http://itaintboring.com/downloads/OnlineScripts/CodeNowSample.txt
+http://itaintboring.com/downloads/OnlineScripts/PluginSourceSample.txt
+http://itaintboring.com/downloads/OnlineScripts/SolutionStats.txt
+http://itaintboring.com/downloads/OnlineScripts/EntityMetadata.txt
