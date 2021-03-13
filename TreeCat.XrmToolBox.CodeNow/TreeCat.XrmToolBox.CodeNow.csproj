@@ -221,6 +221,7 @@
     <Compile Include="Storage\FileSystem.cs" />
     <Compile Include="Storage\ICodeNowStorage.cs" />
     <Compile Include="Storage\Embedded.cs" />
+    <Compile Include="ToStringDebugExtensions.cs" />
     <Compile Include="WebResourceUploadControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
