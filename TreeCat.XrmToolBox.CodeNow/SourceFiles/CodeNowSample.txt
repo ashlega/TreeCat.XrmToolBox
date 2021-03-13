@@ -29,12 +29,7 @@ public static void CodeNow(){
       </entity>
     </fetch>";
 
-    var results = Service.RetrieveMultiple(new FetchExpression(fetchXml)).Entities;
-    foreach(var r in results)
-    {
-       LogMessage((string)r["name"]);
-    }
-
+    LogMessage(Service.RetrieveMultiple(new FetchExpression(fetchXml)))
 }
 
 CODE*/
