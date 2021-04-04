@@ -29,7 +29,7 @@ public static void CodeNow(){
       </entity>
     </fetch>";
 
-    LogMessage(Service.RetrieveMultiple(new FetchExpression(fetchXml)))
+    LogMessage(Service.RetrieveMultiple(new FetchExpression(fetchXml)));
 }
 
 CODE*/
