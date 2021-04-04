@@ -14,7 +14,7 @@ namespace ToolBoxSnippet
 
 		
         public static Delegate internalLogMessage = null;
-        public static void LogMessage(string msg)
+        public static void LogMessage(object msg)
         {
             object[] args = new object[] { msg }; 
             if(internalLogMessage != null) internalLogMessage.DynamicInvoke(args);

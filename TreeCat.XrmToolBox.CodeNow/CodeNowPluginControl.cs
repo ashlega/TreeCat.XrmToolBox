@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 using System.Windows.Forms;
 
-public delegate void LogMessageDelegate(string msg);
+public delegate void LogMessageDelegate(object msg);
 public delegate void ProgressIndicatorDelegate();
 
 namespace TreeCat.XrmToolBox.CodeNow
@@ -25,8 +25,6 @@ namespace TreeCat.XrmToolBox.CodeNow
     public partial class CodeNowPluginControl: PluginControlBase, IHelpPlugin
     {
         private List<Storage.ICodeNowStorage> storageList = new List<Storage.ICodeNowStorage>();
-
-        private string fileName = null;
 
         private CodeNowScript Script { get; set; }
         
@@ -492,8 +490,8 @@ namespace TreeCat.XrmToolBox.CodeNow
             // 
             // tbCode
             // 
-            this.tbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tbCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbCode.AutoCompleteBracketsList = new char[] {
         '(',
@@ -558,10 +556,9 @@ namespace TreeCat.XrmToolBox.CodeNow
         }
 
 
-        private void LogMessage(string msg)
+        private void LogMessage(object msg)
         {
-            tbLog.AppendText(msg + System.Environment.NewLine);
-            
+            tbLog.AppendText(msg.ObjectToStringDebug() + Environment.NewLine);
         }
 
 
@@ -599,8 +596,6 @@ namespace TreeCat.XrmToolBox.CodeNow
 
         private void buttonRun_Click(object sender, EventArgs e)
         {
-            
-
             var cmn = new Common();
             string result = cmn.GenerateCode(Service, delegateInstance, COMPILE_ACTION.RUN_NOW, null, tbCode.Text, tbUsing.Text, StartProgress, StopProgress);
             if (result != null) LogMessage(result);
